@@ -6,21 +6,28 @@ import Error from './components/pages/Error/Error';
 import Edit from './components/pages/Edit/Edit';
 import Add from './components/pages/Add/Add';
 import About from './components/pages/About/About';
+import Header from './components/views/Header/Header';
+import Footer from './components/views/Footer/Footer'
+import { Container } from 'react-bootstrap';
 
 
 
 const App = () => {
   return (
-    <Routes>
-      <Route path='/' element={<Home />}></Route>
-      <Route path='post'>
-        <Route path='add' element={<Add />}></Route>
-        <Route path=':id' element={<Post />}></Route>
-        <Route path='edit/:id' element={<Edit />}></Route>
-      </Route>
-      <Route path='about' element={<About />}></Route>
-      <Route path='*' element={<Error />}></Route>
-    </Routes>
+    <Container>
+      <Header />
+      <Routes>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='post'>
+          <Route path='add' element={<Add />}></Route>
+          <Route path=':id' element={<Post />}></Route>
+          <Route path='edit/:id' element={<Edit />}></Route>
+        </Route>
+        <Route path='about' element={<About />}></Route>
+        <Route path='*' element={<Error />}></Route>
+      </Routes>
+      <Footer />
+    </Container>
   );
 }
 
