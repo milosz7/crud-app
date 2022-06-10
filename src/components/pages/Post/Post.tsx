@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
 import { selectPostById } from "../../../store/slices/postsSlice";
 import { useAppSelector } from "../../../store/hooks";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import { Button } from "react-bootstrap"
 import { useState } from "react";
 import DeletePostModal from "../../features/DeletePostModal/DeletePostModal";
@@ -19,9 +20,11 @@ const Post = () => {
         <div className="d-flex justify-content-between mb-3">
           <h2>{postData.title}</h2>
           <div>
-            <Button className="me-2" variant="outline-info" as={Link as any} to={`../edit/${id}`}>
-              Edit
-            </Button>
+            <LinkContainer to={`../edit/${id}`}>
+              <Button className="me-2" variant="outline-info">
+                Edit
+              </Button>
+            </LinkContainer>
             <Button variant="outline-danger" onClick={() => setModalDisplay(true)}>Delete</Button>
           </div>
         </div>
