@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from '../store'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from '../store';
 
 const initialState = [
   {
@@ -32,10 +32,16 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-
+    removePost: (state, action: PayloadAction<string>) => {
+      return [...state.filter(post => post.id !== action.payload)]
+    }
   }
 });
 
 export const selectAllPosts = (state: RootState) => state.posts;
+
+export const selectPostById = (state: RootState, id: string | undefined) => state.posts.filter(post => post.id === id)
+
+export const { removePost } = postsSlice.actions;
 
 export default postsSlice.reducer;
