@@ -1,11 +1,11 @@
 import { Form, Button } from 'react-bootstrap';
 import FormBase from '../../common/FormBase/FormBase';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { addPost } from '../../../store/slices/postsSlice';
 import { useAppDispatch } from '../../../store/hooks';
 import { useNavigate } from 'react-router';
 import shortid from 'shortid';
-import { convertDate } from '../../../helpers/convertDate'
+import { convertDate } from '../../../helpers/convertDate';
 
 const AddPostForm = () => {
   let navigate = useNavigate();
@@ -32,6 +32,13 @@ const AddPostForm = () => {
     );
     navigate('/');
   };
+
+  useEffect(() => {
+    const dateInput: HTMLInputElement | null = document.querySelector('input[type^="date"');
+    if (dateInput) {
+      dateInput.max = (new Date().toISOString()).slice(0,10);
+    }
+  });
 
   return (
     <Form onSubmit={addNewPost} className="my-4">
