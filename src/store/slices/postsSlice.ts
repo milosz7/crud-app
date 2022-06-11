@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from '../store';
 
+type Post = {id: string, title: string, shortDescription: string, content: string, publishedDate: string, author: string}
+
 const initialState = [
   {
     id: '1',
@@ -34,6 +36,9 @@ const postsSlice = createSlice({
   reducers: {
     removePost: (state, action: PayloadAction<string>) => {
       return [...state.filter(post => post.id !== action.payload)]
+    },
+    addPost: (state, action: PayloadAction<Post>) => {
+      state.push(action.payload)
     }
   }
 });
@@ -42,6 +47,6 @@ export const selectAllPosts = (state: RootState) => state.posts;
 
 export const selectPostById = (state: RootState, id: string | undefined) => state.posts.filter(post => post.id === id)
 
-export const { removePost } = postsSlice.actions;
+export const { removePost, addPost } = postsSlice.actions;
 
 export default postsSlice.reducer;
