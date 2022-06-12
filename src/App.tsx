@@ -16,7 +16,7 @@ const App = () => {
 
   useEffect(() => {
     document.title = 'CRUD App.'
-  })
+  }, [])
 
   return (
     <Container>
