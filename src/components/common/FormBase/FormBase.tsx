@@ -10,9 +10,20 @@ interface FormBaseData {
   isValid: boolean | undefined;
   rows?: number | undefined;
   title: string;
+  value?: string;
 }
 
-const FormBase = ({ id, type, as, placeholder, onChange, isValid, rows, title }: FormBaseData) => {
+const FormBase = ({
+  id,
+  type,
+  as,
+  placeholder,
+  onChange,
+  isValid,
+  rows,
+  title,
+  value,
+}: FormBaseData) => {
   if (as)
     return (
       <Form.Group className="mb-3">
@@ -25,6 +36,7 @@ const FormBase = ({ id, type, as, placeholder, onChange, isValid, rows, title }:
           id={id}
           onChange={onChange}
           isValid={isValid}
+          value={value}
           required
         ></Form.Control>
       </Form.Group>
@@ -39,6 +51,7 @@ const FormBase = ({ id, type, as, placeholder, onChange, isValid, rows, title }:
         id={id}
         onChange={onChange}
         isValid={isValid}
+        value={value}
         required
       ></Form.Control>
     </Form.Group>
