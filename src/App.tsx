@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Post from './components/pages/Post/Post';
 import Home from './components/pages/Home/Home';
@@ -13,6 +13,11 @@ import { Container } from 'react-bootstrap';
 
 
 const App = () => {
+
+  useEffect(() => {
+    document.title = 'CRUD App.'
+  })
+
   return (
     <Container>
       <Header />
