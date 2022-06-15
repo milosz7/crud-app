@@ -8,8 +8,8 @@ const PostsList = () => {
 
   return (
     <Row className='align-items-stretch'>
-      {posts.map((post, idx) => 
-        <Col key={idx} className='col-xl-4 col-md-6 col-sm-12 mb-4'>
+      {posts.map((post) => 
+        <Col key={post.id} className='col-xl-4 col-md-6 col-sm-12 mb-4'>
           <Card className="h-100">
             <Card.Body className='d-flex flex-column'>
               <Card.Title>{post.title}</Card.Title>
