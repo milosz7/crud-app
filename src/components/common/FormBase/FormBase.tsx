@@ -11,32 +11,28 @@ interface FormBaseData {
   rows?: number | undefined;
   title: string;
   value?: string;
+  max?: string;
 }
 
 const FormBase = ({
+  as,
+  title,
+  max,
+  rows,
   id,
   type,
-  as,
-  placeholder,
-  onChange,
-  isValid,
-  rows,
-  title,
-  value,
+  ...props
 }: FormBaseData) => {
   if (as)
     return (
       <Form.Group className="mb-3">
         <Form.Label htmlFor={id}>{title}</Form.Label>
         <Form.Control
-          type={type}
           rows={rows}
           as={as}
-          placeholder={placeholder}
+          type={type}
           id={id}
-          onChange={onChange}
-          isValid={isValid}
-          value={value}
+          {...props}
           required
         ></Form.Control>
       </Form.Group>
@@ -46,12 +42,10 @@ const FormBase = ({
       <Form.Label htmlFor={id}>{title}</Form.Label>
       <Form.Control
         type={type}
+        max={type === 'date' ? max : undefined}
         className="w-50"
-        placeholder={placeholder}
         id={id}
-        onChange={onChange}
-        isValid={isValid}
-        value={value}
+        {...props}
         required
       ></Form.Control>
     </Form.Group>
