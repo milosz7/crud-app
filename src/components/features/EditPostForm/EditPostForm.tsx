@@ -10,7 +10,7 @@ const EditPostForm = () => {
 
   const [postData] = useAppSelector((state) => selectPostById(state, id));
   const dispatch = useAppDispatch();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const postEdit = (e: React.FormEvent, postData: Post) => {
     e.preventDefault();

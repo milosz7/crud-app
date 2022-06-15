@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import PostForm from '../PostForm/PostForm';
 
 const AddPostForm = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const addNewPost = (e: React.FormEvent, postData: Post) => {
     e.preventDefault();
