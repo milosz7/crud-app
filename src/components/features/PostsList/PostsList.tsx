@@ -15,7 +15,7 @@ const PostsList = () => {
               <Card.Title>{post.title}</Card.Title>
               <Card.Text className='m-0'><span className="fw-bold">Author: </span>{post.author}</Card.Text>
               <Card.Text ><span className="fw-bold">Published: </span>{post.publishedDate}</Card.Text>
-              <Card.Text>{post.shortDescription}</Card.Text>
+              <Card.Text dangerouslySetInnerHTML={{__html: post.shortDescription}}></Card.Text>
               <LinkContainer to={`post/${post.id}`}>
                 <Button className='align-self-start mt-auto'>Read more</Button>
               </LinkContainer>

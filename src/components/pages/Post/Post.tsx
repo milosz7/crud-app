@@ -32,7 +32,7 @@ const Post = () => {
           <p className="m-0"><span className="fw-bold">Author: </span>{postData.author}</p>
           <p><span className="fw-bold">Published: </span>{postData.publishedDate}</p>
         </div>
-        <p>{postData.content}</p>
+        <p dangerouslySetInnerHTML={{__html: postData.content}}></p>
       </div>
       <DeletePostModal postId={(id) ? id : ''} show={modalDisplay} onHide={() => setModalDisplay(false)} />
     </>
