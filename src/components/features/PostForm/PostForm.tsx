@@ -1,8 +1,9 @@
 import { Form, Button } from 'react-bootstrap';
 import FormBase from '../../common/FormBase/FormBase';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import shortid from 'shortid';
 import { convertDate } from '../../../helpers/convertDate';
+import FormQuill from '../../common/FormQuill/FormQuill';
 
 interface Props {
   submitHandler: Function;
@@ -26,14 +27,24 @@ const PostForm = ({
   buttonText,
 }: Props) => {
 
+  const [content, setContent] = useState(baseContent || '');
+
   const [data, setData] = useState({
     id: id ? id : shortid(),
     title: baseTitle ? baseTitle : '',
     author: baseAuthor ? baseAuthor : '',
-    publishedDate: baseDate ? convertDate(baseDate) : '',
+    publishedDate: baseDate ? baseDate : '',
     shortDescription: baseDesc ? baseDesc : '',
-    content: baseContent ? baseContent : ''
+    content: content,
   })
+
+  useEffect(() => {
+    setData({
+      ...data,
+      content: content,
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[content])
 
   const updateData = (prop: keyof typeof data, value: string) => {
     setData({
@@ -68,13 +79,13 @@ const PostForm = ({
         max={new Date().toISOString().slice(0, 10)}
         placeholder="Enter date"
         id="postPublishDate"
-        value={data.publishedDate}
+        value={convertDate(data.publishedDate)}
         onChange={(e) => updateData('publishedDate', convertDate(e.target.value))}
         isValid={data.publishedDate ? true : false}
       />
       <FormBase
-        type="text"
         title="Description"
+        type="text"
         as="textarea"
         rows={5}
         placeholder="Enter a short description of a post"
@@ -83,17 +94,7 @@ const PostForm = ({
         onChange={(e) => updateData('shortDescription', e.target.value)}
         isValid={data.shortDescription ? true : false}
       />
-      <FormBase
-        title="Content"
-        rows={5}
-        as="textarea"
-        placeholder="Enter the text content of a post"
-        id="postContent"
-        value={data.content}
-        onChange={(e) => updateData('content', e.target.value)}
-        isValid={data.content ? true : false}
-        type="text"
-      />
+      <FormQuill title="Content"  value={content} onChange={setContent} />
       <Button type="submit" variant="primary">
         {buttonText}
       </Button>
