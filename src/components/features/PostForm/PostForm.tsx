@@ -62,7 +62,6 @@ const PostForm = ({
         id="postTitle"
         value={data.title}
         onChange={(e) => updateData('title', e.target.value)}
-        isValid={data.title ? true : false}
       />
       <FormBase
         title="Author"
@@ -71,7 +70,6 @@ const PostForm = ({
         id="postAuthor"
         value={data.author}
         onChange={(e) => updateData('author', e.target.value)}
-        isValid={data.author ? true : false}
       />
       <FormBase
         title="Published"
@@ -81,7 +79,6 @@ const PostForm = ({
         id="postPublishDate"
         value={convertDate(data.publishedDate)}
         onChange={(e) => updateData('publishedDate', convertDate(e.target.value))}
-        isValid={data.publishedDate ? true : false}
       />
       <FormBase
         title="Description"
@@ -92,7 +89,6 @@ const PostForm = ({
         id="postDescription"
         value={data.shortDescription}
         onChange={(e) => updateData('shortDescription', e.target.value)}
-        isValid={data.shortDescription ? true : false}
       />
       <FormQuill title="Content"  value={content} onChange={setContent} />
       <Button type="submit" variant="primary">

@@ -7,7 +7,6 @@ interface FormBaseData {
   as?: 'textarea';
   placeholder: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
-  isValid: boolean | undefined;
   rows?: number | undefined;
   title: string;
   value?: string;
@@ -33,7 +32,6 @@ const FormBase = ({
           type={type}
           id={id}
           {...props}
-          required
         ></Form.Control>
       </Form.Group>
     );
@@ -46,7 +44,6 @@ const FormBase = ({
         className="w-50"
         id={id}
         {...props}
-        required
       ></Form.Control>
     </Form.Group>
   );
