@@ -4,15 +4,13 @@ import { Form } from 'react-bootstrap';
 import 'react-quill/dist/quill.snow.css';
 
 interface Props {
-  id: string;
   title: string;
   onChange: any;
   value: string;
 }
 
-const FormQuill = ({ id, title, ...props }: Props) => {
+const FormQuill = ({title, ...props }: Props) => {
   const ref = useRef<ReactQuill | null>(null);
-  console.log(ref);
 
   const handleClick = () => {
     if (ref && ref.current) {
@@ -22,10 +20,10 @@ const FormQuill = ({ id, title, ...props }: Props) => {
 
   return (
     <Form.Group className="mb-3">
-      <Form.Label onClick={handleClick} htmlFor={id}>
+      <Form.Label onClick={handleClick}>
         {title}
       </Form.Label>
-      <ReactQuill ref={ref} theme="snow" id={id} {...props}></ReactQuill>
+      <ReactQuill ref={ref} theme="snow" {...props}></ReactQuill>
     </Form.Group>
   );
 };
