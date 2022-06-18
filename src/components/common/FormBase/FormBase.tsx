@@ -1,16 +1,22 @@
 import { Form } from 'react-bootstrap';
 import React from 'react';
+import { UseFormRegister, Path } from "react-hook-form";
+import { FormData } from '../../features/PostForm/PostForm'
 
 interface FormBaseData {
   id: string;
   type: string;
   as?: 'textarea';
   placeholder: string;
+  register: UseFormRegister<FormData>
+  label: Path<FormData>
+  required?: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   rows?: number | undefined;
   title: string;
   value?: string;
   max?: string;
+  errorMsg?: any
 }
 
 const FormBase = ({
@@ -19,32 +25,40 @@ const FormBase = ({
   max,
   rows,
   id,
+  onChange,
   type,
+  register,
+  label,
+  required,
+  errorMsg,
   ...props
 }: FormBaseData) => {
   if (as)
     return (
       <Form.Group className="mb-3">
-        <Form.Label htmlFor={id}>{title}</Form.Label>
+        <Form.Label htmlFor={label}>{title}</Form.Label>
         <Form.Control
           rows={rows}
           as={as}
           type={type}
-          id={id}
+          id={label}
+          {...register(label, {required, onChange: onChange})}
           {...props}
         ></Form.Control>
       </Form.Group>
     );
   return (
     <Form.Group className="mb-3">
-      <Form.Label htmlFor={id}>{title}</Form.Label>
+      <Form.Label htmlFor={label}>{title}</Form.Label>
       <Form.Control
         type={type}
         max={type === 'date' ? max : undefined}
         className="w-50"
-        id={id}
+        id={label}
+        {...register(label, {required: "Field is required", onChange: onChange})}
         {...props}
       ></Form.Control>
+      {errorMsg}
     </Form.Group>
   );
 };

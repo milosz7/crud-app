@@ -1,12 +1,22 @@
 import { Form, Button } from 'react-bootstrap';
 import FormBase from '../../common/FormBase/FormBase';
 import React, { useEffect, useState } from 'react';
+import { useForm, SubmitHandler } from "react-hook-form";
 import shortid from 'shortid';
 import { convertDate } from '../../../helpers/convertDate';
 import FormQuill from '../../common/FormQuill/FormQuill';
 
+export interface FormData {
+  id: string;
+  title: string;
+  author: string;
+  publishedDate: string;
+  shortDescription: string;
+  content: string;
+}
+
 interface Props {
-  submitHandler: Function;
+  submitHandler: SubmitHandler<FormData>;
   buttonText: string;
   id?: string;
   baseTitle?: string;
@@ -26,10 +36,10 @@ const PostForm = ({
   baseContent,
   buttonText,
 }: Props) => {
-
+  const {register, handleSubmit: validate, formState: { errors } } = useForm<FormData>();
   const [content, setContent] = useState(baseContent || '');
 
-  const [data, setData] = useState({
+  const [data, setData] = useState<FormData>({
     id: id ? id : shortid(),
     title: baseTitle ? baseTitle : '',
     author: baseAuthor ? baseAuthor : '',
@@ -52,24 +62,31 @@ const PostForm = ({
       [prop]: value
     })
   }
-
   return (
-    <Form onSubmit={(e) => submitHandler(e, data)} className="my-4">
+    
+    <Form onSubmit={validate(submitHandler)} className="my-4">
       <FormBase
         title="Title"
         type="text"
         placeholder="Enter title"
         id="postTitle"
+        label='title'
         value={data.title}
         onChange={(e) => updateData('title', e.target.value)}
+        register={register}
+        required
+        errorMsg={errors.title && "Field is required"}
       />
       <FormBase
         title="Author"
         type="text"
         placeholder="Enter author"
         id="postAuthor"
+        label='author'
         value={data.author}
         onChange={(e) => updateData('author', e.target.value)}
+        register={register}
+        required
       />
       <FormBase
         title="Published"
@@ -77,8 +94,11 @@ const PostForm = ({
         max={new Date().toISOString().slice(0, 10)}
         placeholder="Enter date"
         id="postPublishDate"
+        label='publishedDate'
         value={convertDate(data.publishedDate)}
         onChange={(e) => updateData('publishedDate', convertDate(e.target.value))}
+        register={register}
+        required
       />
       <FormBase
         title="Description"
@@ -87,10 +107,13 @@ const PostForm = ({
         rows={5}
         placeholder="Enter a short description of a post"
         id="postDescription"
+        label='shortDescription'
         value={data.shortDescription}
         onChange={(e) => updateData('shortDescription', e.target.value)}
+        register={register}
+        required
       />
-      <FormQuill title="Content"  value={content} onChange={setContent} />
+      <FormQuill title="Content" value={content} onChange={setContent} />
       <Button type="submit" variant="primary">
         {buttonText}
       </Button>

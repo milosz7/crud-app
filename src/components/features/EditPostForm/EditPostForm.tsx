@@ -4,6 +4,7 @@ import { editPost, Post } from '../../../store/slices/postsSlice';
 import { useAppSelector, useAppDispatch } from '../../../store/hooks';
 import { selectPostById } from '../../../store/slices/postsSlice';
 import React from 'react';
+import { SubmitHandler } from "react-hook-form"
 
 const EditPostForm = () => {
   let { id } = useParams();
@@ -12,8 +13,7 @@ const EditPostForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const postEdit = (e: React.FormEvent, postData: Post) => {
-    e.preventDefault();
+  const postEdit: SubmitHandler<Post> = (postData) => {
     dispatch(editPost({ ...postData }));
     navigate('/');
   };

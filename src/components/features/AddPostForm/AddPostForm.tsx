@@ -7,9 +7,8 @@ import PostForm from '../PostForm/PostForm';
 const AddPostForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const addNewPost = (e: React.FormEvent, postData: Post) => {
-    e.preventDefault();
-    dispatch(addPost({ ...postData }));
+  const addNewPost = (data: Post) => {
+    dispatch(addPost({ ...data}));
     navigate('/');
   };
 
