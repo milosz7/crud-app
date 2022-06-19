@@ -1,10 +1,11 @@
 import { Form, Button } from 'react-bootstrap';
+import { useState, useMemo } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import FormBase from '../../common/FormBase/FormBase';
-import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler } from "react-hook-form";
 import shortid from 'shortid';
 import { convertDate } from '../../../helpers/convertDate';
 import FormQuill from '../../common/FormQuill/FormQuill';
+import FormError from '../../common/FormError/FormError';
 
 export interface FormData {
   id: string;
@@ -36,8 +37,13 @@ const PostForm = ({
   baseContent,
   buttonText,
 }: Props) => {
-  const {register, handleSubmit: validate, formState: { errors } } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit: validate,
+    formState: { errors }
+  } = useForm<FormData>();
   const [content, setContent] = useState(baseContent || '');
+  const [errorQuill, setErrorQuill] = useState(false);
 
   const [data, setData] = useState<FormData>({
     id: id ? id : shortid(),
@@ -46,47 +52,67 @@ const PostForm = ({
     publishedDate: baseDate ? baseDate : '',
     shortDescription: baseDesc ? baseDesc : '',
     content: content,
-  })
+  });
 
-  useEffect(() => {
+  const validateQuill = () => {
+    if (content.replace(/<(.|\n)*?>/g, '').trim().length === 0) {
+      setErrorQuill(true);
+    } else {
+      setErrorQuill(false)
+    }
+  };
+
+  const handleSubmit = () => {
+    if (!errorQuill) {
+      submitHandler(data);
+    }
+  };
+
+  useMemo(() => {
     setData({
       ...data,
       content: content,
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[content])
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [content]);
 
   const updateData = (prop: keyof typeof data, value: string) => {
     setData({
       ...data,
-      [prop]: value
-    })
-  }
+      [prop]: value,
+    });
+  };
   return (
-    
-    <Form onSubmit={validate(submitHandler)} className="my-4">
+    <Form onSubmit={validate(handleSubmit)} className="my-4">
       <FormBase
         title="Title"
         type="text"
         placeholder="Enter title"
         id="postTitle"
-        label='title'
+        label="title"
         value={data.title}
         onChange={(e) => updateData('title', e.target.value)}
         register={register}
+        minLength={3}
         required
-        errorMsg={errors.title && "Field is required"}
+        errorMsg={
+          errors.title && <FormError message='Title is too short (min: 3)' />
+        }
       />
       <FormBase
         title="Author"
         type="text"
         placeholder="Enter author"
         id="postAuthor"
-        label='author'
+        label="author"
         value={data.author}
         onChange={(e) => updateData('author', e.target.value)}
         register={register}
+        minLength={3}
         required
+        errorMsg={
+          errors.author && <FormError message='Author is too short (min: 3)' />
+        }
       />
       <FormBase
         title="Published"
@@ -94,11 +120,15 @@ const PostForm = ({
         max={new Date().toISOString().slice(0, 10)}
         placeholder="Enter date"
         id="postPublishDate"
-        label='publishedDate'
+        label="publishedDate"
         value={convertDate(data.publishedDate)}
         onChange={(e) => updateData('publishedDate', convertDate(e.target.value))}
         register={register}
+        minLength={10}
         required
+        errorMsg={
+          errors.publishedDate && <FormError message='Field is required' />
+        }
       />
       <FormBase
         title="Description"
@@ -107,14 +137,19 @@ const PostForm = ({
         rows={5}
         placeholder="Enter a short description of a post"
         id="postDescription"
-        label='shortDescription'
+        label="shortDescription"
         value={data.shortDescription}
         onChange={(e) => updateData('shortDescription', e.target.value)}
         register={register}
+        minLength={15}
         required
-      />
+        errorMsg={
+          errors.shortDescription && <FormError message='Description is too short (min: 15)' />
+        }
+      />                           
       <FormQuill title="Content" value={content} onChange={setContent} />
-      <Button type="submit" variant="primary">
+      {errorQuill && <FormError message='Please enter any content' />}
+      <Button className="mt-3" type="submit" onClick={() => validateQuill()} variant="primary">
         {buttonText}
       </Button>
     </Form>
