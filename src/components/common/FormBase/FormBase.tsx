@@ -44,11 +44,7 @@ const FormBase = ({
           as={as}
           type={type}
           id={label}
-          {...register(label, {
-            required,
-            onChange: onChange,
-            minLength: minLength
-          })}
+          {...register(label, { required, onChange: onChange, minLength: minLength })}
           {...props}
         ></Form.Control>
         {errorMsg}
