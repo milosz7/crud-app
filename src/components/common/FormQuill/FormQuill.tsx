@@ -1,5 +1,5 @@
 import ReactQuill from 'react-quill';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Form } from 'react-bootstrap';
 import 'react-quill/dist/quill.snow.css';
 
@@ -19,7 +19,7 @@ const FormQuill = ({title, ...props }: Props) => {
   };
 
   return (
-    <Form.Group className="mb-3">
+    <Form.Group>
       <Form.Label onClick={handleClick}>
         {title}
       </Form.Label>
