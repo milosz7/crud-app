@@ -6,6 +6,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Button } from "react-bootstrap"
 import { useState } from "react";
 import DeletePostModal from "../../features/DeletePostModal/DeletePostModal";
+import { capitalizeString } from "../../../helpers/capitalizeSrting";
 
 const Post = () => {
   let { id } = useParams();
@@ -30,7 +31,8 @@ const Post = () => {
         </div>
         <div>
           <p className="m-0"><span className="fw-bold">Author: </span>{postData.author}</p>
-          <p><span className="fw-bold">Published: </span>{postData.publishedDate}</p>
+          <p className="m-0"><span className="fw-bold">Published: </span>{postData.publishedDate}</p>
+          <p><span className="fw-bold">Category: </span>{capitalizeString(postData.category)}</p>
         </div>
         <p dangerouslySetInnerHTML={{__html: postData.content}}></p>
       </div>
