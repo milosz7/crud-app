@@ -1,4 +1,3 @@
-import React from 'react';
 import { addPost, Post } from '../../../store/slices/postsSlice';
 import { useAppDispatch } from '../../../store/hooks';
 import { useNavigate } from 'react-router';
