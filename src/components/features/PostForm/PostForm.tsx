@@ -6,12 +6,14 @@ import shortid from 'shortid';
 import { convertDate } from '../../../helpers/convertDate';
 import FormQuill from '../../common/FormQuill/FormQuill';
 import FormError from '../../common/FormError/FormError';
+import FormSelectBase from '../../common/FormSelectBase/FormSelectBase';
 
 export interface FormData {
   id: string;
   title: string;
   author: string;
   publishedDate: string;
+  category: string;
   shortDescription: string;
   content: string;
 }
@@ -25,6 +27,7 @@ interface Props {
   baseDate?: string;
   baseDesc?: string;
   baseContent?: string;
+  baseCategory?: string;
 }
 
 const PostForm = ({
@@ -33,6 +36,7 @@ const PostForm = ({
   baseTitle,
   baseAuthor,
   baseDate,
+  baseCategory,
   baseDesc,
   baseContent,
   buttonText,
@@ -40,7 +44,7 @@ const PostForm = ({
   const {
     register,
     handleSubmit: validate,
-    formState: { errors }
+    formState: { errors },
   } = useForm<FormData>();
   const [content, setContent] = useState(baseContent || '');
   const [errorQuill, setErrorQuill] = useState(false);
@@ -50,6 +54,7 @@ const PostForm = ({
     title: baseTitle ? baseTitle : '',
     author: baseAuthor ? baseAuthor : '',
     publishedDate: baseDate ? baseDate : '',
+    category: baseCategory ? baseCategory : '',
     shortDescription: baseDesc ? baseDesc : '',
     content: content,
   });
@@ -58,7 +63,7 @@ const PostForm = ({
     if (content.replace(/<(.|\n)*?>/g, '').trim().length === 0) {
       setErrorQuill(true);
     } else {
-      setErrorQuill(false)
+      setErrorQuill(false);
     }
   };
 
@@ -95,9 +100,7 @@ const PostForm = ({
         register={register}
         minLength={3}
         required
-        errorMsg={
-          errors.title && <FormError message='Title is too short (min: 3)' />
-        }
+        errorMsg={errors.title && <FormError message="Title is too short (min: 3)" />}
       />
       <FormBase
         title="Author"
@@ -110,9 +113,7 @@ const PostForm = ({
         register={register}
         minLength={3}
         required
-        errorMsg={
-          errors.author && <FormError message='Author is too short (min: 3)' />
-        }
+        errorMsg={errors.author && <FormError message="Author is too short (min: 3)" />}
       />
       <FormBase
         title="Published"
@@ -126,9 +127,16 @@ const PostForm = ({
         register={register}
         minLength={10}
         required
-        errorMsg={
-          errors.publishedDate && <FormError message='Field is required' />
-        }
+        errorMsg={errors.publishedDate && <FormError message="Field is required" />}
+      />
+      <FormSelectBase
+        title="Category"
+        selectedCategory={data.category || ''}
+        label="category"
+        register={register}
+        required
+        onChange={(e) => updateData('category', e.target.value)}
+        errorMsg={errors.category && <FormError message="Field is required" />}
       />
       <FormBase
         title="Description"
@@ -144,11 +152,11 @@ const PostForm = ({
         minLength={15}
         required
         errorMsg={
-          errors.shortDescription && <FormError message='Description is too short (min: 15)' />
+          errors.shortDescription && <FormError message="Description is too short (min: 15)" />
         }
-      />                           
+      />
       <FormQuill title="Content" value={content} onChange={setContent} />
-      {errorQuill && <FormError message='Please enter any content' />}
+      {errorQuill && <FormError message="Please enter any content" />}
       <Button className="mt-3" type="submit" onClick={() => validateQuill()} variant="primary">
         {buttonText}
       </Button>
