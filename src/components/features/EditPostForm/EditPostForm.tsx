@@ -3,7 +3,6 @@ import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { editPost, Post } from '../../../store/slices/postsSlice';
 import { useAppSelector, useAppDispatch } from '../../../store/hooks';
 import { selectPostById } from '../../../store/slices/postsSlice';
-import React from 'react';
 import { SubmitHandler } from "react-hook-form"
 
 const EditPostForm = () => {
@@ -26,6 +25,7 @@ const EditPostForm = () => {
       baseTitle={postData.title}
       baseAuthor={postData.author}
       baseDate={postData.publishedDate}
+      baseCategory={postData.category}
       baseDesc={postData.shortDescription}
       baseContent={postData.content}
     />
