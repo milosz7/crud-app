@@ -9,7 +9,7 @@ const Home = () => {
         <h2 className='m-0'>All posts</h2>
         <Button variant="outline-info" as={Link as any} to='/post/add'>Add post</Button>
       </div>
-      <PostsList />
+      <PostsList filter={false} />
     </div>
   )
 };
