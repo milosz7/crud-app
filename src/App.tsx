@@ -10,7 +10,7 @@ import Categories from './components/pages/Categories/Categories';
 import Category from './components/pages/Category/Category';
 import Header from './components/views/Header/Header';
 import Footer from './components/views/Footer/Footer'
-import { Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap'; 
 
 
 
